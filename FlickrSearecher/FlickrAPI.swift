@@ -77,6 +77,8 @@ struct FlickrAPI {
     
     // Method that returns a url with the specific endpoint: .search.
     static func photosForSearchTermURL() -> NSURL {
+        page += 1
+        print(page)
         return flickrURL(method: .Search, page: page, parameters: ["extras": "url_q,url_h,date_taken"])
     }
     

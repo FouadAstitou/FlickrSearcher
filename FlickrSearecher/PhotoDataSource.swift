@@ -10,8 +10,12 @@ import UIKit
 
 class PhotoDataSource: NSObject, UICollectionViewDataSource {
     
+    //MARK: - Properties
     // Array to store the Flickr Photos
     var flickrPhotos = [FlickrPhoto]()
+    
+    // An instance of photoStore.
+    var store = PhotoStore()
     
     // MARK: - numberOfItemsInSection
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -27,6 +31,31 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
         let photo = flickrPhotos[indexPath.item]
         cell.updateWithImage(photo.image)
         
+        // If you get close to the end of the collection, fetch more photo's.
+        if indexPath.item == flickrPhotos.count - 20 {
+            
+            print("Detected the end of the collection")
+            
+            // Fetch the next batch of photos.
+            store.fetchPhotosForSearchTerm() {
+                (photosResult) -> Void in
+                
+                NSOperationQueue.mainQueue().addOperationWithBlock() {
+                    switch photosResult {
+                    case let .Success(photos):
+                        print("Successfully found \(photos.count) recent photos.")
+                        self.flickrPhotos.appendContentsOf(photos)
+                    case let .Failure(error):
+                        self.flickrPhotos.removeAll()
+                        print("Error fetching more photos for search term \(error)")
+                    }
+                    collectionView.reloadSections(NSIndexSet(index: 0))
+                    //                    self.collectionView.reloadData()
+                }
+            }
+            
+        }
         return cell
     }
 }
+
