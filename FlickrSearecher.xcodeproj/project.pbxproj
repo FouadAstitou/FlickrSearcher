@@ -14,6 +14,7 @@
 		2B8857211D71ED0700296E5B /* FickrPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8857201D71ED0700296E5B /* FickrPhoto.swift */; };
 		2B8857231D71EFE400296E5B /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8857221D71EFE400296E5B /* PhotosViewController.swift */; };
 		2B8857251D71F33000296E5B /* PhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8857241D71F33000296E5B /* PhotoDataSource.swift */; };
+		2B8857271D71F8A200296E5B /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8857261D71F8A200296E5B /* PhotoCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		2B8857201D71ED0700296E5B /* FickrPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FickrPhoto.swift; sourceTree = "<group>"; };
 		2B8857221D71EFE400296E5B /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		2B8857241D71F33000296E5B /* PhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
+		2B8857261D71F8A200296E5B /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			children = (
 				2B88570E1D71EBBA00296E5B /* AppDelegate.swift */,
 				2B8857201D71ED0700296E5B /* FickrPhoto.swift */,
+				2B8857261D71F8A200296E5B /* PhotoCollectionViewCell.swift */,
 				2B8857221D71EFE400296E5B /* PhotosViewController.swift */,
 				2B8857121D71EBBB00296E5B /* Main.storyboard */,
 				2B8857241D71F33000296E5B /* PhotoDataSource.swift */,
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B8857231D71EFE400296E5B /* PhotosViewController.swift in Sources */,
+				2B8857271D71F8A200296E5B /* PhotoCollectionViewCell.swift in Sources */,
 				2B8857251D71F33000296E5B /* PhotoDataSource.swift in Sources */,
 				2B88570F1D71EBBA00296E5B /* AppDelegate.swift in Sources */,
 				2B8857211D71ED0700296E5B /* FickrPhoto.swift in Sources */,

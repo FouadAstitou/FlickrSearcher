@@ -15,7 +15,7 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
     
     // MARK: - numberOfItemsInSection
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return flickrPhotos.count
     }
     
     // MARK: - cellForItemAtIndexPath
