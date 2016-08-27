@@ -31,6 +31,9 @@ struct FlickrAPI {
     // The APIKey to use when constructing the URL.
     private static let APIKey = "a6d819499131071f158fd740860a5a88"
     
+    // To be able to set an increasing value to the page property when constructing the url.
+    private static var page = 0
+    
     // Date formatter
     private static let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
@@ -39,7 +42,7 @@ struct FlickrAPI {
     }()
     
     // Build up the flickrURL for a specific endpoint.
-    private static func flickrURL(method method: Method, parameters: [String: String]?) -> NSURL {
+    private static func flickrURL(method method: Method, page: Int, parameters: [String: String]?) -> NSURL {
         
         let components = NSURLComponents(string: baseURLString)!
         var queryItems = [NSURLQueryItem]()
@@ -49,6 +52,9 @@ struct FlickrAPI {
             "format": "json",
             "nojsoncallback": "1",
             "api_key": APIKey,
+            "text": searchTerm,
+            "per_page": "100",
+            "page": String(page)
         ]
         
         for (key, value) in baseParams {
@@ -71,7 +77,7 @@ struct FlickrAPI {
     
     // Method that returns a url with the specific endpoint: .search.
     static func photosForSearchTermURL() -> NSURL {
-        return flickrURL(method: .Search, parameters: ["extras": "url_q,url_h,date_taken"])
+        return flickrURL(method: .Search, page: page, parameters: ["extras": "url_q,url_h,date_taken"])
     }
     
     // Covert an NSData instance to basic foundation objects.
