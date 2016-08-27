@@ -24,5 +24,13 @@ class FlickrPhoto {
         self.remoteThumbnailURL = remoteThumbnailURL
         self.dateTaken = dateTaken
     }
-    
+}
+
+// Extension to be able to use the indexof(_:) method on the flickrPhotos array.
+extension FlickrPhoto: Equatable {}
+
+// Custom operators have to be declared outside of the type decleration.
+func == (lhs: FlickrPhoto, rhs: FlickrPhoto) -> Bool {
+    // Two photos are the same if they have the samephotoID
+    return lhs.photoID == rhs.photoID
 }

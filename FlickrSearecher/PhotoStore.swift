@@ -51,6 +51,7 @@ class PhotoStore {
     // Download the image data from the webservice.
     func fetchImageForPhoto(flickrPhoto: FlickrPhoto, completion: (ImageResult) -> Void) {
         
+        // If the image already exist don't download it again.
         if let image = flickrPhoto.image {
             completion(.Success(image))
             return
@@ -91,9 +92,6 @@ class PhotoStore {
         
         return .Success(image)
     }
-
-
-    
     
 }
 
