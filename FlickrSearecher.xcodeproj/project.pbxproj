@@ -12,6 +12,8 @@
 		2B8857161D71EBBB00296E5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B8857151D71EBBB00296E5B /* Assets.xcassets */; };
 		2B8857191D71EBBB00296E5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B8857171D71EBBB00296E5B /* LaunchScreen.storyboard */; };
 		2B8857211D71ED0700296E5B /* FickrPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8857201D71ED0700296E5B /* FickrPhoto.swift */; };
+		2B8857231D71EFE400296E5B /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8857221D71EFE400296E5B /* PhotosViewController.swift */; };
+		2B8857251D71F33000296E5B /* PhotoDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8857241D71F33000296E5B /* PhotoDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		2B8857181D71EBBB00296E5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B88571A1D71EBBB00296E5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B8857201D71ED0700296E5B /* FickrPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FickrPhoto.swift; sourceTree = "<group>"; };
+		2B8857221D71EFE400296E5B /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
+		2B8857241D71F33000296E5B /* PhotoDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +60,9 @@
 			children = (
 				2B88570E1D71EBBA00296E5B /* AppDelegate.swift */,
 				2B8857201D71ED0700296E5B /* FickrPhoto.swift */,
+				2B8857221D71EFE400296E5B /* PhotosViewController.swift */,
 				2B8857121D71EBBB00296E5B /* Main.storyboard */,
+				2B8857241D71F33000296E5B /* PhotoDataSource.swift */,
 				2B8857151D71EBBB00296E5B /* Assets.xcassets */,
 				2B8857171D71EBBB00296E5B /* LaunchScreen.storyboard */,
 				2B88571A1D71EBBB00296E5B /* Info.plist */,
@@ -135,6 +141,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B8857231D71EFE400296E5B /* PhotosViewController.swift in Sources */,
+				2B8857251D71F33000296E5B /* PhotoDataSource.swift in Sources */,
 				2B88570F1D71EBBA00296E5B /* AppDelegate.swift in Sources */,
 				2B8857211D71ED0700296E5B /* FickrPhoto.swift in Sources */,
 			);
