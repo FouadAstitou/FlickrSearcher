@@ -15,6 +15,7 @@ class PhotosViewController: UIViewController {
     
     // MARK: - Properties
     let photoDataSource = PhotoDataSource()
+    var store: PhotoStore!
     
     // MARK: - View Setup
     override func viewDidLoad() {
