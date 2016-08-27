@@ -34,6 +34,9 @@ struct FlickrAPI {
     // To be able to set an increasing value to the page property when constructing the url.
     private static var page = 0
     
+    // To keep track of the total pages containing photo's for a searh term. For the purpose of the infinite scroll.
+    private static var pages = 0
+    
     // Date formatter
     private static let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
@@ -75,10 +78,16 @@ struct FlickrAPI {
         return components.URL!
     }
     
-    // Method that returns a url with the specific endpoint: .search.
+    // Method that returns a url with the specific endpoint: (.search) and the page value.
     static func photosForSearchTermURL() -> NSURL {
-        page += 1
-        print(page)
+        
+        // As long as the current page value is smaller than the total page value add 1.
+        if page < pages {
+            page += 1
+        }
+        else {
+            page = 1
+        }
         return flickrURL(method: .Search, page: page, parameters: ["extras": "url_q,url_h,date_taken"])
     }
     
@@ -91,11 +100,13 @@ struct FlickrAPI {
             guard let
                 jsonDictionary = jsonObject as? [NSObject:AnyObject],
                 photos = jsonDictionary["photos"] as? [String:AnyObject],
+                pages = photos["pages"] as? Int,
                 photosArray = photos["photo"] as? [[String:AnyObject]] else {
                     
                     // The JSON structure doesn't match our expectations
                     return .Failure(FlickrError.InvalidJSONData)
             }
+            self.pages = pages
             
             var finalPhotos = [FlickrPhoto]()
             for photoJSON in photosArray {
@@ -134,6 +145,4 @@ struct FlickrAPI {
         
         return FlickrPhoto(title: title, photoID: photoID, remoteThumbnailURL: thumbnailURL, remotePhotoURL: photoURL, dateTaken: dateTaken)
     }
-    
-    
 }
