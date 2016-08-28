@@ -9,7 +9,10 @@
 import UIKit
 
 // Global variable for holding a search term.
-var searchTerm: String!
+var searchTerm: String?
+
+// Global variable to hold an instance of Reachability.
+var reachability: Reachability?
 
 enum TextFieldPlaceHolderText: String {
     case Search = "Search"
@@ -24,7 +27,7 @@ class PhotosViewController: UIViewController {
     
     // MARK: - Properties
     let photoDataSource = PhotoDataSource()
-    var photoStore: PhotoStore!
+    let photoStore = PhotoStore()
     
     // MARK: - View Setup
     override func viewDidLoad() {
@@ -32,15 +35,21 @@ class PhotosViewController: UIViewController {
         
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
+        collectionView.backgroundColor = UIColor(patternImage: UIImage(named: "flickr.png")!)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Check if the device is connected to the internet.
+        checkForReachability()
     }
     
     // MARK: showAlert
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (nil) in
-            self.dismissViewControllerAnimated(true, completion: nil)
-            self.searchTextField.becomeFirstResponder()
-            
+            self.dismissViewControllerAnimated(true, completion: nil)            
         })
         
         alert.addAction(okAction)
@@ -59,6 +68,44 @@ class PhotosViewController: UIViewController {
                 destinationVC.photoStore = photoStore
             }
         }
+    }
+    
+    // MARK: - checkForReachability
+    func checkForReachability() {
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+            return
+        }
+        
+        reachability!.whenReachable = { reachability in
+            // this is called on a background thread, but UI updates must be on the main thread, like this:
+            NSOperationQueue.mainQueue().addOperationWithBlock({ 
+                if reachability.isReachableViaWiFi() {
+                    print("Reachable via WiFi")
+                } else {
+                    print("Reachable via Cellular")
+                }
+            })
+            
+        }
+        
+        reachability!.whenUnreachable = { reachability in
+            // this is called on a background thread, but UI updates must be on the main thread, like this:
+             NSOperationQueue.mainQueue().addOperationWithBlock({
+                print("Not reachable")
+                
+                self.showAlert("No Internet Connection", message: "Make sure your device is connected to the internet.")
+            })
+        }
+        
+        do {
+            try reachability!.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+
     }
 
 }
@@ -95,7 +142,6 @@ extension PhotosViewController : UITextFieldDelegate {
             return false
         }
         else {
-            
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
             textField.addSubview(activityIndicator)
             activityIndicator.frame = textField.bounds
@@ -123,6 +169,9 @@ extension PhotosViewController : UITextFieldDelegate {
                         print("Successfully found \(photos.count) recent photos.")
                         
                     case let .Failure(error):
+                        self.checkForReachability()
+                        activityIndicator.removeFromSuperview()
+                        textField.placeholder = TextFieldPlaceHolderText.Search.rawValue
                         self.photoDataSource.flickrPhotos.removeAll()
                         print("Error fetching photo's for search term \(error)")
                     }

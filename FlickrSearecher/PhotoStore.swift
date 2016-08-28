@@ -116,7 +116,6 @@ class PhotoStore {
         }
         
         return .Success(image)
-    }
-    
+    }    
 }
 

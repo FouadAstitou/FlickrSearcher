@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B537D781D72CA6800EC77E3 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B537D771D72CA6800EC77E3 /* Reachability.swift */; };
 		2B88570F1D71EBBA00296E5B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88570E1D71EBBA00296E5B /* AppDelegate.swift */; };
 		2B8857141D71EBBB00296E5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B8857121D71EBBB00296E5B /* Main.storyboard */; };
 		2B8857161D71EBBB00296E5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B8857151D71EBBB00296E5B /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B537D771D72CA6800EC77E3 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		2B88570B1D71EBBA00296E5B /* FlickrSearecher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrSearecher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B88570E1D71EBBA00296E5B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B8857131D71EBBB00296E5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 				2B8857121D71EBBB00296E5B /* Main.storyboard */,
 				2B88572C1D7247E600296E5B /* PhotoDetailViewController.swift */,
 				2B8857241D71F33000296E5B /* PhotoDataSource.swift */,
+				2B537D771D72CA6800EC77E3 /* Reachability.swift */,
 				2B8857151D71EBBB00296E5B /* Assets.xcassets */,
 				2B8857171D71EBBB00296E5B /* LaunchScreen.storyboard */,
 				2B88571A1D71EBBB00296E5B /* Info.plist */,
@@ -158,6 +161,7 @@
 				2B8857251D71F33000296E5B /* PhotoDataSource.swift in Sources */,
 				2B88572B1D7204A600296E5B /* PhotoStore.swift in Sources */,
 				2B8857291D71FEAB00296E5B /* FlickrAPI.swift in Sources */,
+				2B537D781D72CA6800EC77E3 /* Reachability.swift in Sources */,
 				2B88570F1D71EBBA00296E5B /* AppDelegate.swift in Sources */,
 				2B88572D1D7247E600296E5B /* PhotoDetailViewController.swift in Sources */,
 				2B8857211D71ED0700296E5B /* FickrPhoto.swift in Sources */,
@@ -312,6 +316,7 @@
 				2B88571F1D71EBBB00296E5B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

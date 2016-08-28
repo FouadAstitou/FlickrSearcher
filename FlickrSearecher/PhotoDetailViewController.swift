@@ -28,7 +28,6 @@ class PhotoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         photoStore.fetchLargeImageForPhoto(flickrPhoto) { (result) -> Void in
             switch result {
             case let .Success(image):
@@ -38,21 +37,69 @@ class PhotoDetailViewController: UIViewController {
             case let .Failure(error):
                 print(" Error fetching detail image for photo: \(error)")
             }
-            
         }
-
     }
     
     override func viewWillAppear(animated: Bool) {
-      configureView()
+        self.checkForReachability()
+        configureView()
     }
+    
+    // MARK: - checkForReachability
+    func checkForReachability() {
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+        } catch {
+            print("Unable to create Reachability")
+            return
+        }
+        
+        reachability!.whenReachable = { reachability in
+            // this is called on a background thread, but UI updates must be on the main thread, like this:
+            NSOperationQueue.mainQueue().addOperationWithBlock({
+                if reachability.isReachableViaWiFi() {
+                    print("Reachable via WiFi")
+                } else {
+                    print("Reachable via Cellular")
+                }
+            })
+            
+        }
+        
+        reachability!.whenUnreachable = { reachability in
+            // this is called on a background thread, but UI updates must be on the main thread, like this:
+            NSOperationQueue.mainQueue().addOperationWithBlock({
+                print("Not reachable")
+                
+                self.showAlert("No Internet Connection", message: "Make sure your device is connected to the internet.")
+            })
+        }
+        
+        do {
+            try reachability!.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+    }
+
     
     func configureView() {
         photoIDLabel.text = flickrPhoto.photoID
-        photoTitleLabel.text = flickrPhoto.title ?? "No title available"
-        dateTakenLabel.text = flickrPhoto.dateTaken ?? "No date available"
+        photoTitleLabel.text = flickrPhoto.title
+        dateTakenLabel.text = flickrPhoto.dateTaken
     }
     
+    // MARK: showAlert
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (nil) in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+        
+        alert.addAction(okAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
     @IBAction func shareTapped(sender: AnyObject) {
         print("share pressed")
 
