@@ -25,6 +25,8 @@ enum FlickrError: ErrorType {
 
 struct FlickrAPI {
     
+    //MARK: - Properties
+    
     // Base URL to use for constructing the completed URL.
     private static let baseURLString = "https://api.flickr.com/services/rest"
    
@@ -37,7 +39,9 @@ struct FlickrAPI {
     // To keep track of the total pages containing photo's for a searh term. For the purpose of the infinite scroll.
     private static var pages = 0
     
-    // Build up the flickrURL for a specific endpoint.
+    //MARK: - flickrURL
+    
+    /// Builds up the flickrURL for a specific endpoint with the selected parameters.
     private static func flickrURL(method method: Method, page: Int, parameters: [String: String]?) -> NSURL {
         
         let components = NSURLComponents(string: baseURLString)!
@@ -71,7 +75,9 @@ struct FlickrAPI {
         return components.URL!
     }
     
-    // Method that returns a url with the specific endpoint: (.search) and the page value.
+    //MARK: - photosForSearchTermURL
+    
+    /// Method that returns a url with the specific endpoint: (.search) and the page value.
     static func photosForSearchTermURL() -> NSURL {
         
         // As long as the current page value is smaller than the total page value add 1.
@@ -84,7 +90,9 @@ struct FlickrAPI {
         return flickrURL(method: .Search, page: page, parameters: ["extras": "url_q,url_h,date_taken"])
     }
     
-    // Covert an NSData instance to basic foundation objects.
+    //MARK: - photosFromJSONData
+    
+    /// Coverts an NSData instance to basic foundation objects.
     static func photosFromJSONData(data: NSData) -> PhotosResult {
         
         do {
@@ -120,7 +128,9 @@ struct FlickrAPI {
         }
     }
     
-    // Parse a JSON dictionary into a FlickrPhoto instance.
+    // Mark: - photoFromJSONObject
+    
+    /// Parses a JSON dictionary into a FlickrPhoto instance.
     static func photoFromJSONObject(json: [String : AnyObject]) -> FlickrPhoto? {
         guard let
             photoID = json["id"] as? String,

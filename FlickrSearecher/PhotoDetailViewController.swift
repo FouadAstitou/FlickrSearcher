@@ -11,12 +11,13 @@ import Social
 
 class PhotoDetailViewController: UIViewController {
     
-    
+    // MARK: - Outlets
     @IBOutlet var photoTitleLabel: UILabel!
     @IBOutlet var photoIDLabel: UILabel!
     @IBOutlet var dateTakenLabel: UILabel!
     @IBOutlet var imageView: UIImageView!
     
+    // MARK: Properties
     // Date formatter
     let dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
@@ -27,7 +28,7 @@ class PhotoDetailViewController: UIViewController {
     var flickrPhoto: FlickrPhoto!
     var photoStore: PhotoStore!
     
-    
+    // MARK: - View Setup
     override func viewDidLoad() {
         super.viewDidLoad()
         photoStore.fetchImageForPhoto(flickrPhoto, thumbnail: false) { (result) -> Void in
@@ -73,7 +74,6 @@ class PhotoDetailViewController: UIViewController {
                 self.showAlert("No Internet Connection", message: "Make sure your device is connected to the internet.")
             })
         }
-        
         do {
             try reachability!.startNotifier()
         } catch {
@@ -86,17 +86,6 @@ class PhotoDetailViewController: UIViewController {
         photoIDLabel.text = flickrPhoto.photoID
         photoTitleLabel.text = flickrPhoto.title
         dateTakenLabel.text = flickrPhoto.dateTaken
-    }
-    
-    // MARK: showAlert
-    func showAlert(title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (nil) in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
-        
-        alert.addAction(okAction)
-        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // MARK: - showShareOptions
@@ -148,7 +137,18 @@ class PhotoDetailViewController: UIViewController {
         actionSheet.addAction(dismissAction)
         
         presentViewController(actionSheet, animated: true, completion: nil)
+    }
+    
+    // MARK: showAlert
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (nil) in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
         
-        print("share pressed")
+        alert.addAction(okAction)
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }
+
+

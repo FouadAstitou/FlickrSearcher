@@ -14,13 +14,14 @@ var searchTerm: String?
 // Global variable to hold an instance of Reachability.
 var reachability: Reachability?
 
+// Enum for changing the textfield placeholder text.
 enum TextFieldPlaceHolderText: String {
     case Search = "Search"
     case Searching = "Searching..."
 }
 
 class PhotosViewController: UIViewController {
-
+    
     // MARK: - Outlets
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var searchTextField: UITextField!
@@ -33,8 +34,11 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Sets the data source an delegate.
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
+        
+        // Uses an image to add a pattern to the collection view background.
         collectionView.backgroundColor = UIColor(patternImage: UIImage(named: "flickr.png")!)
     }
     
@@ -47,18 +51,19 @@ class PhotosViewController: UIViewController {
     
     // MARK: showAlert
     func showAlert(title: String, message: String) {
+        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (nil) in
-            self.dismissViewControllerAnimated(true, completion: nil)            
+            self.dismissViewControllerAnimated(true, completion: nil)
         })
-        
         alert.addAction(okAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    // MARK - Segue
+    // MARK: - Segue
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ShowPhoto" {
+            
             if let selectedIndexPath = collectionView.indexPathsForSelectedItems()?.first {
                 
                 let flickrPhoto = photoDataSource.flickrPhotos[selectedIndexPath.row]
@@ -78,28 +83,24 @@ class PhotosViewController: UIViewController {
             print("Unable to create Reachability")
             return
         }
-        
         reachability!.whenReachable = { reachability in
-            // this is called on a background thread, but UI updates must be on the main thread, like this:
-            NSOperationQueue.mainQueue().addOperationWithBlock({ 
+            // This is called on a background thread, but UI updates must be on the main thread, like this:
+            NSOperationQueue.mainQueue().addOperationWithBlock({
                 if reachability.isReachableViaWiFi() {
                     print("Reachable via WiFi")
                 } else {
                     print("Reachable via Cellular")
                 }
             })
-            
         }
-        
         reachability!.whenUnreachable = { reachability in
-            // this is called on a background thread, but UI updates must be on the main thread, like this:
-             NSOperationQueue.mainQueue().addOperationWithBlock({
+            // This is called on a background thread, but UI updates must be on the main thread, like this:
+            NSOperationQueue.mainQueue().addOperationWithBlock({
                 print("Not reachable")
                 
                 self.showAlert("No Internet Connection", message: "Make sure your device is connected to the internet.")
             })
         }
-        
         do {
             try reachability!.startNotifier()
         } catch {
@@ -108,8 +109,10 @@ class PhotosViewController: UIViewController {
     }
 }
 
+//MARK: - Extension UICollectionViewDelegate
 extension PhotosViewController: UICollectionViewDelegate {
     
+    //MARK: - willDisplayCell
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         
         let flickrPhoto = photoDataSource.flickrPhotos[indexPath.row]
@@ -117,6 +120,7 @@ extension PhotosViewController: UICollectionViewDelegate {
         // Download the image data for a thumbnail.
         photoStore.fetchImageForPhoto(flickrPhoto,thumbnail: true) { (result) -> Void in
             
+            // Call the mainthread to update the UI.
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 
                 // The indexpath for the photo might have changed between the time the request started and finished, so find the most recent indeaxpath
@@ -132,9 +136,12 @@ extension PhotosViewController: UICollectionViewDelegate {
     }
 }
 
+//MARK: - Extension UITextFieldDelegate
 extension PhotosViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        // Check if the textfield is not empty.
         if textField.text!.isEmpty {
             self.showAlert("S😉rry", message: "No search term detected, please enter a search term.")
             return false
@@ -147,35 +154,41 @@ extension PhotosViewController : UITextFieldDelegate {
             
             textField.placeholder = TextFieldPlaceHolderText.Searching.rawValue
             
+            // Set the text that the user typed as the value for the searchTerm property.
             searchTerm = textField.text!
             
+            // Fetches the photos from flickr using the user's search term.
             photoStore.fetchPhotosForSearchTerm() {
                 (photosResult) -> Void in
                 
+                // Call the mainthread to update the UI.
                 NSOperationQueue.mainQueue().addOperationWithBlock() {
                     
                     switch photosResult {
                         
                     case let .Success(photos):
+                        
+                        // Check if photos were found using the search term.
                         if photos.count == 0 {
                             self.showAlert("S😞rry", message: "No images found matching your search for: \(searchTerm), please try again.")
                         }
                         activityIndicator.removeFromSuperview()
                         textField.placeholder = TextFieldPlaceHolderText.Search.rawValue
                         
+                        // Set the result to the data source array.
                         self.photoDataSource.flickrPhotos = photos
                         print("Successfully found \(photos.count) recent photos.")
                         
                     case let .Failure(error):
+                        
                         self.checkForReachability()
                         activityIndicator.removeFromSuperview()
                         textField.placeholder = TextFieldPlaceHolderText.Search.rawValue
                         self.photoDataSource.flickrPhotos.removeAll()
-                        print("Error fetching photo's for search term \(error)")
+                        print("Error fetching photo's for search term: \(searchTerm), error: \(error)")
                     }
                     self.collectionView.reloadSections(NSIndexSet(index: 0))
                 }
-                
             }
             textField.text = nil
             textField.resignFirstResponder()

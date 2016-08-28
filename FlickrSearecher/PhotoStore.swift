@@ -19,13 +19,17 @@ enum PhotoError: ErrorType {
 
 class PhotoStore {
     
-    // Compted property for NSURLSession.
+    //MARK: - Properties.
+    
+    // Computed property for NSURLSession.
     let session: NSURLSession = {
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
         return NSURLSession(configuration: config)
     }()
     
-    // Fetch the photos from flickr using the user's search term.
+    //MARK: - fetchPhotosForSearchTerm
+    
+    /// Fetches the photos from flickr using the user's search term.
     func fetchPhotosForSearchTerm(completion completion: (PhotosResult) -> Void) {
         
         let url = FlickrAPI.photosForSearchTermURL()
@@ -39,16 +43,19 @@ class PhotoStore {
         task.resume()
     }
     
-    // Process the JSON data that is returned from the webservice.
+    //MARK: - processPhotosForSearchTerm
+    
+    /// Processes the JSON data that is returned from the webservice.
     func processPhotosForSearchTerm(data data: NSData?, error: NSError?) -> PhotosResult {
         guard let jsonData = data else {
             return .Failure(error!)
         }
-        
         return FlickrAPI.photosFromJSONData(jsonData)
     }
     
-    // Download the image data from the webservice.
+    //MARK: - fetchImageForPhoto
+    
+    /// Downloads the image data from the webservice.
     func fetchImageForPhoto(flickrPhoto: FlickrPhoto, thumbnail: Bool, completion: (ImageResult) -> Void) {
         
         let photoURL: NSURL
@@ -59,9 +66,11 @@ class PhotoStore {
                 completion(.Success(image))
                 return
             }
+            // Download the small size image.
             photoURL = flickrPhoto.remoteThumbnailURL
         }
         else {
+            // Download the large size image.
             photoURL = flickrPhoto.remotePhotoURL
         }
         let request = NSURLRequest(URL: photoURL)
@@ -80,7 +89,9 @@ class PhotoStore {
         task.resume()
     }
     
-    // Process the data from the webservice into an image.
+    //MARK: - processImageRequest
+    
+    /// Processes the data from the webservice into an image.
     func processImageRequest(data data: NSData?, error: NSError?) -> ImageResult {
         
         guard let

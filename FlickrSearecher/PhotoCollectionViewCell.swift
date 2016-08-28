@@ -10,13 +10,15 @@ import UIKit
 
 class PhotoCollectionViewCell: UICollectionViewCell {
     
-    //MARK: - Outlets
+    // MARK: - Outlets
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var spinner: UIActivityIndicatorView!
     
-    //MARK: - updateWithImage
+    // MARK: - updateWithImage
+    
     // Helper method for updating the spinner.
     func updateWithImage(image: UIImage?) {
+        
         if let imageToDisplay = image {
             spinner.stopAnimating()
             imageView.image = imageToDisplay
@@ -27,14 +29,14 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    //MARK: - awakeFromNib
+    // MARK: - awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
         
         updateWithImage(nil)
     }
     
-    //MARK: - prepareForReuse
+    // MARK: - prepareForReuse
     override func prepareForReuse() {
         super.prepareForReuse()
         
