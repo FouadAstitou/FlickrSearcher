@@ -218,7 +218,7 @@
                     <navigationItem key="navigationItem" title="Flickr Searcher" id="hTe-x4-hbW">
                         <barButtonItem key="rightBarButtonItem" systemItem="action" id="Fes-x6-BSN">
                             <connections>
-                                <action selector="shareTapped:" destination="KoZ-fh-cnx" id="pjf-wf-ca0"/>
+                                <action selector="showShareOptions:" destination="KoZ-fh-cnx" id="zpQ-aT-QWp"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

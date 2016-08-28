@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Social
 
 class PhotoDetailViewController: UIViewController {
-
+    
     
     @IBOutlet var photoTitleLabel: UILabel!
     @IBOutlet var photoIDLabel: UILabel!
@@ -54,7 +55,6 @@ class PhotoDetailViewController: UIViewController {
             print("Unable to create Reachability")
             return
         }
-        
         reachability!.whenReachable = { reachability in
             // this is called on a background thread, but UI updates must be on the main thread, like this:
             NSOperationQueue.mainQueue().addOperationWithBlock({
@@ -64,9 +64,7 @@ class PhotoDetailViewController: UIViewController {
                     print("Reachable via Cellular")
                 }
             })
-            
         }
-        
         reachability!.whenUnreachable = { reachability in
             // this is called on a background thread, but UI updates must be on the main thread, like this:
             NSOperationQueue.mainQueue().addOperationWithBlock({
@@ -82,8 +80,8 @@ class PhotoDetailViewController: UIViewController {
             print("Unable to start notifier")
         }
     }
-
     
+    // MARK: - configureView
     func configureView() {
         photoIDLabel.text = flickrPhoto.photoID
         photoTitleLabel.text = flickrPhoto.title
@@ -100,9 +98,57 @@ class PhotoDetailViewController: UIViewController {
         alert.addAction(okAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
-
-    @IBAction func shareTapped(sender: AnyObject) {
+    
+    // MARK: - showShareOptions
+    @IBAction func showShareOptions(sender: AnyObject) {
+        
+        // Configure an action sheet to show the sharing options.
+        let actionSheet = UIAlertController(title: "Share this photo", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let tweetAction = UIAlertAction(title: "Share on Twitter", style: UIAlertActionStyle.Default) { (action) -> Void in
+            // Check if sharing to Twitter is possible.
+            if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
+                
+                let twitterComposeVC = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+                twitterComposeVC.addImage(self.imageView.image)
+                self.presentViewController(twitterComposeVC, animated: true, completion: nil)
+            }
+            else {
+                self.showAlert("Flickr Searcher", message: "You are not logged in to your Twitter account.")
+            }
+        }
+        
+        // Configure a new action to share on Facebook.
+        let facebookPostAction = UIAlertAction(title: "Share on Facebook", style: UIAlertActionStyle.Default) { (action) -> Void in
+            
+            if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
+                
+                let facebookComposeVC = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+                facebookComposeVC.addImage(self.imageView.image)
+                self.presentViewController(facebookComposeVC, animated: true, completion: nil)
+                
+            }
+            else {
+                self.showAlert("Flickr Searcher", message: "You are not logged in to your facebook account.")
+            }
+        }
+        
+        // Configure a new action to show the UIActivityViewController
+        let moreAction = UIAlertAction(title: "More", style: UIAlertActionStyle.Default) { (action) -> Void in
+            let activityViewController = UIActivityViewController(activityItems: [self.imageView.image!], applicationActivities: nil)
+            
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+        
+        let dismissAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Destructive) { (action) -> Void in
+            
+        }
+        actionSheet.addAction(tweetAction)
+        actionSheet.addAction(facebookPostAction)
+        actionSheet.addAction(moreAction)
+        actionSheet.addAction(dismissAction)
+        
+        presentViewController(actionSheet, animated: true, completion: nil)
+        
         print("share pressed")
-
     }
 }
