@@ -4,7 +4,7 @@ Swift 2.2
 Xcode 7.3.1
 iOS Deployment Target 9.3
 
-=== App description. ===
+=== App description === 
 This is an app that uses the Flickr API to allow user searching for photos with specific words.
 The searching is done using a textfield inside the navigation bar. 
 The search url is construsted two return two sizes of the same image.
