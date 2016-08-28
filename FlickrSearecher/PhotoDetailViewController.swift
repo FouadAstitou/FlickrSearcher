@@ -18,16 +18,10 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet var imageView: UIImageView!
     
     // MARK: Properties
-    // Date formatter
-    let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter
-    }()
-    
     var flickrPhoto: FlickrPhoto!
     var photoStore: PhotoStore!
-    
+    let formatter = FlickrAPI.dateFormatter
+
     // MARK: - View Setup
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +35,9 @@ class PhotoDetailViewController: UIViewController {
                 print(" Error fetching detail image for photo: \(error)")
             }
         }
+        formatter.dateStyle = .MediumStyle
+        formatter.timeStyle = .NoStyle
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -85,7 +82,7 @@ class PhotoDetailViewController: UIViewController {
     func configureView() {
         photoIDLabel.text = flickrPhoto.photoID
         photoTitleLabel.text = flickrPhoto.title
-        dateTakenLabel.text = flickrPhoto.dateTaken
+        dateTakenLabel.text = formatter.stringFromDate(flickrPhoto.dateTaken)
     }
     
     // MARK: - showShareOptions

@@ -14,10 +14,10 @@ class FlickrPhoto {
     let remoteThumbnailURL: NSURL
     let remotePhotoURL: NSURL
     let photoID: String
-    let dateTaken: String
+    let dateTaken: NSDate
     var image: UIImage?
     
-    init(title: String, photoID: String, remoteThumbnailURL: NSURL, remotePhotoURL: NSURL, dateTaken: String) {
+    init(title: String, photoID: String, remoteThumbnailURL: NSURL, remotePhotoURL: NSURL, dateTaken: NSDate) {
         self.title = title
         self.photoID = photoID
         self.remotePhotoURL = remotePhotoURL

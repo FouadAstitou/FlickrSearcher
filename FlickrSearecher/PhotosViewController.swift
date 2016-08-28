@@ -185,7 +185,7 @@ extension PhotosViewController : UITextFieldDelegate {
                         activityIndicator.removeFromSuperview()
                         textField.placeholder = TextFieldPlaceHolderText.Search.rawValue
                         self.photoDataSource.flickrPhotos.removeAll()
-                        print("Error fetching photo's for search term: \(searchTerm), error: \(error)")
+                        print("Error fetching photo's for search term: \(searchTerm!), error: \(error)")
                     }
                     self.collectionView.reloadSections(NSIndexSet(index: 0))
                 }
