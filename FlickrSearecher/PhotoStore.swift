@@ -74,6 +74,31 @@ class PhotoStore {
         task.resume()
     }
     
+    func fetchLargeImageForPhoto(flickrPhoto: FlickrPhoto, completion: (ImageResult) -> Void) {
+        
+        //        if let image = photo.image {
+        //            completion(.Success(image))
+        //            return
+        //        }
+        let photoURL = flickrPhoto.remotePhotoURL
+        let request = NSURLRequest(URL: photoURL)
+        
+        let task = session.dataTaskWithRequest(request) {
+            (data, response, error) -> Void in
+            
+            let result = self.processImageRequest(data: data, error: error)
+            
+            if case let .Success(image) = result {
+                // compressing images to load faster (not working!)
+                //                let imageData = UIImageJPEGRepresentation(image, 0.0)
+                flickrPhoto.image = image //UIImage(data: imageData!)
+            }
+            completion(result)
+        }
+        task.resume()
+    }
+
+    
     // Process the data from the webservice into an image.
     func processImageRequest(data data: NSData?, error: NSError?) -> ImageResult {
         

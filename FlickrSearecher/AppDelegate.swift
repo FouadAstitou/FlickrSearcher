@@ -21,6 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             rootViewController.topViewController as! PhotosViewController
         photosViewController.photoStore = PhotoStore()
         
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSFontAttributeName: UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.whiteColor()
+        ]
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+            NSFontAttributeName: UIFont(name: "Helvetica Neue", size: 17)!, NSForegroundColorAttributeName: UIColor.whiteColor()
+            ], forState: .Normal)
+        
         return true
     }
 

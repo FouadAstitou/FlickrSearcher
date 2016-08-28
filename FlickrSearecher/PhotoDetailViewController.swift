@@ -22,27 +22,41 @@ class PhotoDetailViewController: UIViewController {
         return formatter
     }()
     
-    var flickrPhoto: FlickrPhoto!{
-        didSet {
-            navigationItem.title = flickrPhoto.title
-        }
-    }
-
+    var flickrPhoto: FlickrPhoto!
     var photoStore: PhotoStore!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        photoTitleLabel.text = flickrPhoto.title
+        
+        photoStore.fetchLargeImageForPhoto(flickrPhoto) { (result) -> Void in
+            switch result {
+            case let .Success(image):
+                NSOperationQueue.mainQueue().addOperationWithBlock() {
+                    self.imageView.image = image
+                }
+            case let .Failure(error):
+                print(" Error fetching detail image for photo: \(error)")
+            }
+            
+        }
 
     }
     
     override func viewWillAppear(animated: Bool) {
-        photoIDLabel.text = flickrPhoto.photoID
-        photoTitleLabel.text = flickrPhoto.title
-        dateTakenLabel.text = flickrPhoto.dateTaken
-        imageView.image = flickrPhoto.image
+      configureView()
     }
     
+    func configureView() {
+        photoIDLabel.text = flickrPhoto.photoID
+        photoTitleLabel.text = flickrPhoto.title ?? "No title available"
+        dateTakenLabel.text = flickrPhoto.dateTaken ?? "No date available"
+    }
+    
+    @IBAction func shareTapped(sender: AnyObject) {
+        print("share pressed")
+
+    }
+
     
 }
