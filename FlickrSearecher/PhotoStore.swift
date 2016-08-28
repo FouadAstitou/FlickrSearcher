@@ -8,11 +8,13 @@
 
 import UIKit
 
+// Checks if the result contains valid JSON data and an array of photos.
 enum ImageResult {
     case Success(UIImage)
     case Failure(ErrorType)
 }
 
+// Error handeling.
 enum PhotoError: ErrorType {
     case ImageCreationError
 }

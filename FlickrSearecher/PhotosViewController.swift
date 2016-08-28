@@ -34,7 +34,7 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Sets the data source an delegate.
+        // Sets the data source and delegate.
         collectionView.dataSource = photoDataSource
         collectionView.delegate = self
         
@@ -45,7 +45,7 @@ class PhotosViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Check if the device is connected to the internet.
+        // Checks if the device is connected to the internet.
         checkForReachability()
     }
     
@@ -84,7 +84,7 @@ class PhotosViewController: UIViewController {
             return
         }
         reachability!.whenReachable = { reachability in
-            // This is called on a background thread, but UI updates must be on the main thread, like this:
+            // This is called on a background thread, but UI updates must be on the main thread.
             NSOperationQueue.mainQueue().addOperationWithBlock({
                 if reachability.isReachableViaWiFi() {
                     print("Reachable via WiFi")
@@ -94,7 +94,7 @@ class PhotosViewController: UIViewController {
             })
         }
         reachability!.whenUnreachable = { reachability in
-            // This is called on a background thread, but UI updates must be on the main thread, like this:
+            // This is called on a background thread, but UI updates must be on the main thread.
             NSOperationQueue.mainQueue().addOperationWithBlock({
                 print("Not reachable")
                 
@@ -117,10 +117,10 @@ extension PhotosViewController: UICollectionViewDelegate {
         
         let flickrPhoto = photoDataSource.flickrPhotos[indexPath.row]
         
-        // Download the image data for a thumbnail.
+        // Downloads the image data for a thumbnail.
         photoStore.fetchImageForPhoto(flickrPhoto,thumbnail: true) { (result) -> Void in
             
-            // Call the mainthread to update the UI.
+            // Calls the mainthread to update the UI.
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 
                 // The indexpath for the photo might have changed between the time the request started and finished, so find the most recent indeaxpath
@@ -141,7 +141,7 @@ extension PhotosViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        // Check if the textfield is not empty.
+        // Checks if the textfield is not empty.
         if textField.text!.isEmpty {
             self.showAlert("S😉rry", message: "No search term detected, please enter a search term.")
             return false
@@ -154,28 +154,28 @@ extension PhotosViewController : UITextFieldDelegate {
             
             textField.placeholder = TextFieldPlaceHolderText.Searching.rawValue
             
-            // Set the text that the user typed as the value for the searchTerm property.
+            // Sets the text that the user typed as the value for the searchTerm property.
             searchTerm = textField.text!
             
             // Fetches the photos from flickr using the user's search term.
             photoStore.fetchPhotosForSearchTerm() {
                 (photosResult) -> Void in
                 
-                // Call the mainthread to update the UI.
+                // Calls the mainthread to update the UI.
                 NSOperationQueue.mainQueue().addOperationWithBlock() {
                     
                     switch photosResult {
                         
                     case let .Success(photos):
                         
-                        // Check if photos were found using the search term.
+                        // Checks if photos were found using the search term.
                         if photos.count == 0 {
-                            self.showAlert("S😞rry", message: "No images found matching your search for: \(searchTerm), please try again.")
+                            self.showAlert("S😞rry", message: "No images found matching your search for: \(searchTerm!), please try again.")
                         }
                         activityIndicator.removeFromSuperview()
                         textField.placeholder = TextFieldPlaceHolderText.Search.rawValue
                         
-                        // Set the result to the data source array.
+                        // Sets the result to the data source array.
                         self.photoDataSource.flickrPhotos = photos
                         print("Successfully found \(photos.count) recent photos.")
                         
@@ -185,6 +185,7 @@ extension PhotosViewController : UITextFieldDelegate {
                         activityIndicator.removeFromSuperview()
                         textField.placeholder = TextFieldPlaceHolderText.Search.rawValue
                         self.photoDataSource.flickrPhotos.removeAll()
+                        self.showAlert("", message: "Something went wrong, please try again.")
                         print("Error fetching photo's for search term: \(searchTerm!), error: \(error)")
                     }
                     self.collectionView.reloadSections(NSIndexSet(index: 0))

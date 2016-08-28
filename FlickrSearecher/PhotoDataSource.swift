@@ -40,6 +40,7 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
             photoStore.fetchPhotosForSearchTerm() {
                 (photosResult) -> Void in
                 
+                // Calls the mainthread to update the UI.
                 NSOperationQueue.mainQueue().addOperationWithBlock() {
                     switch photosResult {
                     case let .Success(photos):
@@ -50,7 +51,6 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
                         print("Error fetching more photos for search term \(error)")
                     }
                     collectionView.reloadSections(NSIndexSet(index: 0))
-                    //                    self.collectionView.reloadData()
                 }
             }
             

@@ -25,9 +25,13 @@ class PhotoDetailViewController: UIViewController {
     // MARK: - View Setup
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Downloads the image data for large image
         photoStore.fetchImageForPhoto(flickrPhoto, thumbnail: false) { (result) -> Void in
             switch result {
             case let .Success(image):
+                
+                // Calls the mainthread to update the UI.
                 NSOperationQueue.mainQueue().addOperationWithBlock() {
                     self.imageView.image = image
                 }
@@ -35,13 +39,19 @@ class PhotoDetailViewController: UIViewController {
                 print(" Error fetching detail image for photo: \(error)")
             }
         }
+        // Formats the date a shorte date that doesn't display the time
         formatter.dateStyle = .MediumStyle
         formatter.timeStyle = .NoStyle
         
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.checkForReachability()
+        super.viewWillAppear(animated)
+        
+        // Checks if the device is connected to the internet.
+        checkForReachability()
+        
+        // Configures the UI.
         configureView()
     }
     
@@ -80,9 +90,9 @@ class PhotoDetailViewController: UIViewController {
     
     // MARK: - configureView
     func configureView() {
-        photoIDLabel.text = flickrPhoto.photoID
-        photoTitleLabel.text = flickrPhoto.title
-        dateTakenLabel.text = formatter.stringFromDate(flickrPhoto.dateTaken)
+        photoTitleLabel.text = flickrPhoto.title ?? "No title available"
+        photoIDLabel.text = flickrPhoto.photoID ?? "ID unknown"
+        dateTakenLabel.text = formatter.stringFromDate(flickrPhoto.dateTaken) ?? " Date unknown"
     }
     
     // MARK: - showShareOptions

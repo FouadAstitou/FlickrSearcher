@@ -13,11 +13,13 @@ enum Method: String {
     case Search = "flickr.photos.search"
 }
 
+// Checks if the result contains valid JSON data and an array of photos.
 enum PhotosResult {
     case Success([FlickrPhoto])
     case Failure(ErrorType)
 }
 
+// Error handeling.
 enum FlickrError: ErrorType {
     case InvalidJSONData
 }
@@ -74,9 +76,7 @@ struct FlickrAPI {
                 queryItems.append(item)
             }
         }
-        
         components.queryItems = queryItems
-        print(components.URL!)
         
         return components.URL!
     }

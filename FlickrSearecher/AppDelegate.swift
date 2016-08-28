@@ -15,11 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Change the font and colorfor the navigation controller.
+        // Changes the font and colorfor the navigation controller.
         UINavigationBar.appearance().titleTextAttributes = [
             NSFontAttributeName: UIFont(name: "Helvetica Neue", size: 20)!, NSForegroundColorAttributeName: UIColor.whiteColor()
         ]
-        // Change the font and colorfor the UIBarButtonItems.
+        // Changes the font and colorfor the UIBarButtonItems.
         UIBarButtonItem.appearance().setTitleTextAttributes([
             NSFontAttributeName: UIFont(name: "Helvetica Neue", size: 17)!, NSForegroundColorAttributeName: UIColor.whiteColor()
             ], forState: .Normal)
