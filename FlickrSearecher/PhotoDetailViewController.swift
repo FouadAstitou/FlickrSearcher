@@ -10,8 +10,9 @@ import UIKit
 
 class PhotoDetailViewController: UIViewController {
 
-    @IBOutlet var photoIDLabel: UILabel!
+    
     @IBOutlet var photoTitleLabel: UILabel!
+    @IBOutlet var photoIDLabel: UILabel!
     @IBOutlet var dateTakenLabel: UILabel!
     @IBOutlet var imageView: UIImageView!
     
@@ -28,7 +29,7 @@ class PhotoDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        photoStore.fetchLargeImageForPhoto(flickrPhoto) { (result) -> Void in
+        photoStore.fetchImageForPhoto(flickrPhoto, thumbnail: false) { (result) -> Void in
             switch result {
             case let .Success(image):
                 NSOperationQueue.mainQueue().addOperationWithBlock() {
@@ -104,6 +105,4 @@ class PhotoDetailViewController: UIViewController {
         print("share pressed")
 
     }
-
-    
 }
