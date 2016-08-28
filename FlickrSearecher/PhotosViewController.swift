@@ -24,7 +24,7 @@ class PhotosViewController: UIViewController {
     
     // MARK: - Properties
     let photoDataSource = PhotoDataSource()
-    var store: PhotoStore!
+    var photoStore: PhotoStore!
     
     // MARK: - View Setup
     override func viewDidLoad() {
@@ -34,6 +34,7 @@ class PhotosViewController: UIViewController {
         collectionView.delegate = self
     }
     
+    // MARK: showAlert
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: { (nil) in
@@ -45,6 +46,21 @@ class PhotosViewController: UIViewController {
         alert.addAction(okAction)
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    // MARK - Segue
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "ShowPhoto" {
+            if let selectedIndexPath = collectionView.indexPathsForSelectedItems()?.first {
+                
+                let flickrPhoto = photoDataSource.flickrPhotos[selectedIndexPath.row]
+                
+                let destinationVC = segue.destinationViewController as! PhotoDetailViewController
+                destinationVC.flickrPhoto = flickrPhoto
+                destinationVC.photoStore = photoStore
+            }
+        }
+    }
+
 }
 
 extension PhotosViewController: UICollectionViewDelegate {
@@ -54,7 +70,7 @@ extension PhotosViewController: UICollectionViewDelegate {
         let photo = photoDataSource.flickrPhotos[indexPath.row]
         
         // Download the image data
-        store.fetchImageForPhoto(photo) { (result) -> Void in
+        photoStore.fetchImageForPhoto(photo) { (result) -> Void in
             
             NSOperationQueue.mainQueue().addOperationWithBlock() {
                 
@@ -89,7 +105,7 @@ extension PhotosViewController : UITextFieldDelegate {
             
             searchTerm = textField.text!
             
-            store.fetchPhotosForSearchTerm() {
+            photoStore.fetchPhotosForSearchTerm() {
                 (photosResult) -> Void in
                 
                 NSOperationQueue.mainQueue().addOperationWithBlock() {

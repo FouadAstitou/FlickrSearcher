@@ -15,7 +15,7 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
     var flickrPhotos = [FlickrPhoto]()
     
     // An instance of photoStore.
-    var store = PhotoStore()
+    var photoStore = PhotoStore()
     
     // MARK: - numberOfItemsInSection
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -37,7 +37,7 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
             print("Detected the end of the collection")
             
             // Fetch the next batch of photos.
-            store.fetchPhotosForSearchTerm() {
+            photoStore.fetchPhotosForSearchTerm() {
                 (photosResult) -> Void in
                 
                 NSOperationQueue.mainQueue().addOperationWithBlock() {

@@ -37,13 +37,6 @@ struct FlickrAPI {
     // To keep track of the total pages containing photo's for a searh term. For the purpose of the infinite scroll.
     private static var pages = 0
     
-    // Date formatter
-    private static let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter
-    }()
-    
     // Build up the flickrURL for a specific endpoint.
     private static func flickrURL(method method: Method, page: Int, parameters: [String: String]?) -> NSURL {
         
@@ -106,6 +99,7 @@ struct FlickrAPI {
                     // The JSON structure doesn't match our expectations
                     return .Failure(FlickrError.InvalidJSONData)
             }
+            // Strore the total pages that a search result returns.
             self.pages = pages
             
             var finalPhotos = [FlickrPhoto]()
@@ -116,8 +110,7 @@ struct FlickrAPI {
             }
             
             if finalPhotos.count == 0 && photosArray.count > 0 {
-                // We weren't able to parse any of the photos.
-                // Maybe the JSON format for photos has changed.
+                // We weren't able to parse any of the photos. Maybe the JSON format for photos has changed.
                 return .Failure(FlickrError.InvalidJSONData)
             }
             return .Success(finalPhotos)
@@ -136,13 +129,14 @@ struct FlickrAPI {
             thumbnailURLString = json["url_q"] as? String,
             thumbnailURL = NSURL(string: thumbnailURLString),
             photoURLString = json["url_h"] as? String,
-            photoURL = NSURL(string: photoURLString),
-            dateTaken = dateFormatter.dateFromString(dateString) else {
+            photoURL = NSURL(string: photoURLString)
+//            dateTaken = dateFormatter.dateFromString(dateString)
+            else {
                 
-                // Don't have enough information to construct a Photo
+                // If we don't have enough information to construct a Photo.
                 return nil
         }
         
-        return FlickrPhoto(title: title, photoID: photoID, remoteThumbnailURL: thumbnailURL, remotePhotoURL: photoURL, dateTaken: dateTaken)
+        return FlickrPhoto(title: title, photoID: photoID, remoteThumbnailURL: thumbnailURL, remotePhotoURL: photoURL, dateTaken: dateString)
     }
 }
