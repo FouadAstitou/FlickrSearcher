@@ -22,6 +22,7 @@ how the code works. CocoaPods that i have used before which can be used to do th
 
 === Building the project ===
 Just unzip or clone and double click on FlickrSearecher.xcodeproj.
+In the simulator the linespacing in the collection view looks a bit off. But on an actual device it looks the way it's intended.
 
 
 
