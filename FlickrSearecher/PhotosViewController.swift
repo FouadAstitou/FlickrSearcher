@@ -122,7 +122,7 @@ extension PhotosViewController: UICollectionViewDelegate {
             
             // Calls the mainthread to update the UI.
             NSOperationQueue.mainQueue().addOperationWithBlock() {
-                
+
                 // The indexpath for the photo might have changed between the time the request started and finished, so find the most recent indeaxpath
                 let photoIndex = self.photoDataSource.flickrPhotos.indexOf(flickrPhoto)!
                 let photoIndexPath = NSIndexPath(forRow: photoIndex, inSection: 0)
@@ -189,6 +189,7 @@ extension PhotosViewController : UITextFieldDelegate {
                         print("Error fetching photo's for search term: \(searchTerm!), error: \(error)")
                     }
                     self.collectionView.reloadSections(NSIndexSet(index: 0))
+                    self.collectionView.contentOffset = CGPointZero
                 }
             }
             textField.text = nil

@@ -20,7 +20,6 @@ class PhotoDetailViewController: UIViewController {
     // MARK: Properties
     var flickrPhoto: FlickrPhoto!
     var photoStore: PhotoStore!
-    let formatter = FlickrAPI.dateFormatter
 
     // MARK: - View Setup
     override func viewDidLoad() {
@@ -39,10 +38,6 @@ class PhotoDetailViewController: UIViewController {
                 print(" Error fetching detail image for photo: \(error)")
             }
         }
-        // Formats the date a shorte date that doesn't display the time
-        formatter.dateStyle = .MediumStyle
-        formatter.timeStyle = .NoStyle
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -92,7 +87,7 @@ class PhotoDetailViewController: UIViewController {
     func configureView() {
         photoTitleLabel.text = flickrPhoto.title ?? "No title available"
         photoIDLabel.text = flickrPhoto.photoID ?? "ID unknown"
-        dateTakenLabel.text = formatter.stringFromDate(flickrPhoto.dateTaken) ?? " Date unknown"
+        dateTakenLabel.text = flickrPhoto.dateTaken ?? " Date unknown"
     }
     
     // MARK: - showShareOptions

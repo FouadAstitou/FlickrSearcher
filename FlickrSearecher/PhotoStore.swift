@@ -1,3 +1,4 @@
+
 //
 //  PhotoStore.swift
 //  FlickrSearecher
@@ -63,7 +64,7 @@ class PhotoStore {
         let photoURL: NSURL
         
         if thumbnail {
-            // If the image already exist don't download it again.
+            //If the image already exist don't download it again.
             if let image = flickrPhoto.image {
                 completion(.Success(image))
                 return

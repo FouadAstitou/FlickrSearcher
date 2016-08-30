@@ -32,7 +32,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     // MARK: - awakeFromNib
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         updateWithImage(nil)
     }
     

@@ -78,11 +78,11 @@
 				2B88572A1D7204A500296E5B /* PhotoStore.swift */,
 				2B8857261D71F8A200296E5B /* PhotoCollectionViewCell.swift */,
 				2B8857221D71EFE400296E5B /* PhotosViewController.swift */,
-				2B8857121D71EBBB00296E5B /* Main.storyboard */,
 				2B88572C1D7247E600296E5B /* PhotoDetailViewController.swift */,
 				2B8857241D71F33000296E5B /* PhotoDataSource.swift */,
 				2B537D771D72CA6800EC77E3 /* Reachability.swift */,
 				2B8857151D71EBBB00296E5B /* Assets.xcassets */,
+				2B8857121D71EBBB00296E5B /* Main.storyboard */,
 				2B8857171D71EBBB00296E5B /* LaunchScreen.storyboard */,
 				2B88571A1D71EBBB00296E5B /* Info.plist */,
 			);

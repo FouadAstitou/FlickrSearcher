@@ -40,13 +40,6 @@ struct FlickrAPI {
     // To keep track of the total pages containing photo's for a searh term. For the purpose of the infinite scroll.
     private static var pages = 0
     
-    // Dateformatter
-    static let dateFormatter: NSDateFormatter = {
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return formatter
-    }()
-    
     //MARK: - flickrURL
     
     /// Builds up the flickrURL for a specific endpoint with the selected parameters.
@@ -77,7 +70,7 @@ struct FlickrAPI {
             }
         }
         components.queryItems = queryItems
-        
+        print(components.URL)
         return components.URL!
     }
     
@@ -145,14 +138,13 @@ struct FlickrAPI {
             thumbnailURLString = json["url_q"] as? String,
             thumbnailURL = NSURL(string: thumbnailURLString),
             photoURLString = json["url_h"] as? String,
-            photoURL = NSURL(string: photoURLString),
-            dateTaken = dateFormatter.dateFromString(dateString)
+            photoURL = NSURL(string: photoURLString)
             
             else {
                 
                 // If we don't have enough information to construct a Photo.
                 return nil
         }
-        return FlickrPhoto(title: title, photoID: photoID, remoteThumbnailURL: thumbnailURL, remotePhotoURL: photoURL, dateTaken: dateTaken)
+        return FlickrPhoto(title: title, photoID: photoID, remoteThumbnailURL: thumbnailURL, remotePhotoURL: photoURL, dateTaken: dateString)
     }
 }

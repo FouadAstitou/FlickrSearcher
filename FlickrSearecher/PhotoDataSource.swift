@@ -30,10 +30,10 @@ class PhotoDataSource: NSObject, UICollectionViewDataSource {
         
         let photo = flickrPhotos[indexPath.item]
         cell.updateWithImage(photo.image)
-        
+        print(indexPath.item)
         // If you get close to the end of the collection, fetch more photo's.
         if indexPath.item == flickrPhotos.count - 20 {
-            
+           
             print("Detected the end of the collection")
             
             // Fetch the next batch of photos.
